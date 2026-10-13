@@ -1,0 +1,50 @@
+{% extends "home.html" %}
+
+{% block title %}Список задач{% endblock %}
+
+{% block todo_container %}
+<main>
+    <section class="mb-4">
+        <form method="post" action="/todo">
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="item"
+                    class="form-control"
+                    placeholder="Введите новую задачу"
+                    aria-label="Новая задача"
+                    required
+                >
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </div>
+        </form>
+    </section>
+
+    {% if todo %}
+        <article class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h4 card-title">Задача №{{ todo.id }}</h2>
+                <p class="card-text mb-3"><strong>Описание:</strong> {{ todo.item }}</p>
+                <a class="btn btn-outline-primary" href="/todo">Ко всем задачам</a>
+            </div>
+        </article>
+    {% else %}
+        <section class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h4 text-center mb-3">Список задач</h2>
+                {% if todos %}
+                    <ul class="list-group list-group-flush">
+                        {% for current_todo in todos %}
+                            <li class="list-group-item">
+                                {{ loop.index }}. <a href="/todo/{{ current_todo.id }}">{{ current_todo.item }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-center text-secondary mb-0">Задач пока нет.</p>
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
+</main>
+{% endblock %}
